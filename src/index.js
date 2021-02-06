@@ -1,4 +1,5 @@
 import my from './modules/my.js';
+import './modules/my.css';
 
-conole.log("webpacktest");
+console.log("webpacktest");
 my();
