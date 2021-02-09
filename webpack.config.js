@@ -9,7 +9,7 @@ module.exports = {
     entry: './src/javascripts/main.js',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'javascripts/main.js',//頭に"./"を付けるとコンパイルエラーになる
+        filename: 'javascripts/[name]-[hash].js',//頭に"./"を付けるとコンパイルエラーになる
         publicPath: '/'//for webpack5
     },
     module:{
@@ -59,7 +59,7 @@ module.exports = {
                 test: /\.(png|jpg)/,//images settings
                 type: 'asset/resource',
                 generator: {// for official function-------------
-                    filename: 'images/[name][ext]'
+                    filename: 'images/[name]-[contenthash][ext]'
                 },
                 use: [
                     // {  for file-loader--------------
@@ -98,7 +98,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: './stylesheets/main.css',
+            filename: './stylesheets/[name]-[contenthash].css',
         }),
         new HtmlWebpackPlugin({
             template: './src/templates/index.pug',//add content to auto-made html in dist
