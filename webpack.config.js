@@ -35,9 +35,23 @@ module.exports = {
                     //         esModule: false,
                     //         name: 'images/[name].[ext]',
                     //     },
-                    // }
-                ]
-            }
+                    // },
+                ],
+            },
+            {
+                test: /\.pug/,
+                use: [
+                    {
+                        loader: 'html-loader',//load secondally
+                    },
+                    {
+                        loader: 'pug-html-loader',//load at first
+                        options: {
+                            pretty: true,// Insert line break at the end of the line
+                        }
+                    },
+                ],
+            },
         ],
     },
     plugins: [
@@ -45,7 +59,12 @@ module.exports = {
             filename: './stylesheets/main.css',
         }),
         new HtmlWebpackPlugin({
-            template: './src/templates/index.html',//add content to auto-made html in dist
+            template: './src/templates/index.pug',//add content to auto-made html in dist
+            filename: 'index.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/templates/access.pug',//add content to auto-made html in dist
+            filename: 'access.html',
         }),
         new CleanWebpackPlugin(),
     ],
