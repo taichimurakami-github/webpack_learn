@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',//remove the states "--mode=development"
+    devtool: 'source-map',
     entry: './src/javascripts/main.js',
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -12,18 +14,38 @@ module.exports = {
     module:{
         rules: [
             {
-                test: /\.css/,
+                test: /\.js/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', { 'targets': '>30%, not dead' }],
+                            ],
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(css|sass|scss)/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,//second applied
                     },
                     {
                         loader: 'css-loader',//first applyied(use: apply from bottomside to upperside)
+                        options: {
+                            sourceMap: true,//can be too heavy if the file is large
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
                     },
                 ],
             },
             {
-                test: /\.(png|jpg)/,
+                test: /\.(png|jpg)/,//images settings
                 type: 'asset/resource',
                 generator: {// for official function-------------
                     filename: 'images/[name][ext]'
@@ -36,6 +58,15 @@ module.exports = {
                     //         name: 'images/[name].[ext]',
                     //     },
                     // },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                            }
+                        }
+                    }
                 ],
             },
             {
@@ -65,6 +96,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/templates/access.pug',//add content to auto-made html in dist
             filename: 'access.html',
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/templates/members/taro.pug',//add content to auto-made html in dist
+            filename: 'members/taro.html',//cannot open if "/members/taro.html"
         }),
         new CleanWebpackPlugin(),
     ],
