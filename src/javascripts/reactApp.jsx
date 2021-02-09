@@ -15,5 +15,5 @@ const reactRoot = document.getElementById('react-root');
 if(reactRoot) {
   ReactDom.render(<App />,reactRoot);
 } else {
-  throw new Error('No root element fonund');
+  console.log('No root element fonund');
 }

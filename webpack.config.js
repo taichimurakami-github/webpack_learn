@@ -10,6 +10,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: 'javascripts/main.js',//頭に"./"を付けるとコンパイルエラーになる
+        publicPath: '/'//for webpack5
     },
     module:{
         rules: [
